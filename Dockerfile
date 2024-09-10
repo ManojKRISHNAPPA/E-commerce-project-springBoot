@@ -1,11 +1,14 @@
-FROM openjdk:8u151-jdk-alpine3.7
+# Use a base image with Java 11 installed
+FROM eclipse-temurin:11-jdk-alpine
 
-EXPOSE 8070
+# Set the working directory inside the container
+WORKDIR /app
 
-ENV APP_HOME /usr/src/app
+# Copy the Maven-built JAR file into the container
+COPY target/JtSpringProject-0.0.1-SNAPSHOT.jar app.jar
 
-COPY target/shopping-cart-0.0.1-SNAPSHOT.jar $APP_HOME/app.jar
+# Expose the port on which the application will run
+EXPOSE 8080
 
-WORKDIR $APP_HOME
-
-ENTRYPOINT exec java -jar app.jar
+# Set the entrypoint to run the JAR file
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
